@@ -27,5 +27,5 @@
     port: 22
 
 - name: Confirm host provisioned
-    debug:
-      msg: "Host {{ new_hostname_fqdn }} provisioned"
+  debug:
+    msg: "Host {{ new_hostname_fqdn }} provisioned"
