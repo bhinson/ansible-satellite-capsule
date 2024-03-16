@@ -19,8 +19,8 @@
       --organization={{ satellite_org_label }}
       --activationkey={{ satellite_activation_key }}
       --skip foreman
-      "{{ "--skip katello-agent" if skip_katello_agent else '' }}"
-      "{{ "--force" if force_bootstrap_registration else ''}}"
+      #"{{ "--skip katello-agent" if skip_katello_agent else '' }}"
+      #"{{ "--force" if force_bootstrap_registration else ''}}"
   ignore_errors: true
   when: capsule_install
 

@@ -1,0 +1,21 @@
+---
+- name: Provision host in Satellite
+  redhat.satellite.host:
+    username: "{{ satellite_admin_username }}"
+    password: "{{ satellite_admin_password }}"
+    server_url: "{{ satellite_server_url }}"
+    name: "{{ new_hostname_fqdn }}"
+    hostgroup: "{{ host_hostgroup }}"
+    location: "{{ host_location }}"
+    organization: "{{ host_organization }}"
+    compute_resource: "{{ compute_resource }}"
+    compute_profile: "{{ compute_profile }}"
+    compute_attributes:
+      cluster: "{{ ovirt_clustername }}"
+      start: "1"
+    interfaces_attributes:
+      - type: "interface"
+        compute_attributes:
+          network: "{{ ovirt_network }}"
+    build: yes
+    state: present

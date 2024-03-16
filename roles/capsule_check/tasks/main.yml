@@ -1,3 +1,3 @@
 ---
 - name: Check capsule status
-  command: satellite-maintain service status
+  ansible.builtin.command: satellite-maintain service status
