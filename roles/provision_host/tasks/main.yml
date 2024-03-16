@@ -19,3 +19,8 @@
           network: "{{ ovirt_network }}"
     build: yes
     state: present
+
+- name: Wait for host to come online
+  ansible.builtin.wait_for:
+    host: "{{ new_hostname_fqdn }}"
+    timeout: 600
