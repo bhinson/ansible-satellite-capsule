@@ -1,16 +1,24 @@
 ---
-- name: Update server
-  ansible.builtin.yum: name='*' state=latest
-  when: update_server
+- name: Update all packages
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
 
 - name: Install basic packages
-  ansible.builtin.yum: name=chrony state=present
+  ansible.builtin.yum:
+    name: chrony
+    state: present
 
 - name: Start chrony service
-  ansible.builtin.service: name=chronyd state=started
+  ansible.builtin.service:
+    name: chronyd
+    state: started
+    enabled: true
 
 - name: Install capsule
-  ansible.builtin.yum: name=satellite-capsule state=present
+  ansible.builtin.yum:
+    name: satellite-capsule
+    state: present
 
 - name: Run satellite-installer command
   ansible.builtin.command: /bin/bash "/certs/{{ inventory_hostname }}-script.sh"

@@ -1,23 +1,20 @@
 ---
-capsule_version: 6.14
+capsule_version: 6.9
 
 # Applicable only for Capsule install
-satellite_org_label: changeme
-satellite_activation_key: changeme
-skip_katello_agent: false
-update_server: false
+capsule_cname: none
 force_bootstrap_registration: false
 enable_tools_repo: true
 
 # Only needed for provisioning
 satellite_admin_username: "admin"
 satellite_admin_password: "adminpassword"
-satellite_hostname: "satellite.example.com"
-satellite_server_url: "https://{{ satellite_hostname }}"
+satellite_server_url: "https://satellite.example.com"
+satellite_location: "Example Location"
+satellite_organization: "Example Organization"
+satellite_hostgroup: "Example host group"
+satellite_activation_key: "Example Activation Key"
 new_hostname_fqdn: "new-host.example.com"
-host_hostgroup: "Example host group"
-host_location: "Example Location"
-host_organization: "Example Organization"
 compute_resource: "Example Compute Resource"
 compute_profile: "Example Compute Profile"
 ovirt_clustername: "oVirt Cluster Name"

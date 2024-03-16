@@ -1,9 +1,11 @@
 ---
 - name: Stop services
-  ansible.builtin.command: foreman-maintain service stop
+  ansible.builtin.command: satellite-maintain service stop
 
-- name: Update yum
-  ansible.builtin.command: yum update -y
+- name: Update all packages
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
 
 - name: Run capsule-installer command
   ansible.builtin.command: satellite-installer --scenario capsule --upgrade 
