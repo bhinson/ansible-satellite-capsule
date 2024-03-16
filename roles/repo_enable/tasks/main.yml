@@ -1,0 +1,21 @@
+---
+- name: Enable capsule installation/upgrade repos
+  redhat.rhel_system_roles.rhsm_repository:
+    name:
+      - rhel-8-for-x86_64-baseos-rpms
+      - rhel-8-for-x86_64-appstream-rpms
+      - satellite-capsule-{{ capsule_version }}-for-rhel-8-x86_64-rpms
+      - satellite-maintenance-{{ capsule_version }}-for-rhel-8-x86_64-rpms
+
+- name: Enable capsule module
+  ansible.builtin.dnf:
+    name: '@satellite-capsule:el8'
+    state: present
+
+- name: Remove epel
+  ansible.builtin.yum_repository:
+    name: epel
+    state: absent
+
+- name: Clean yum
+  ansible.builtin.command: yum clean all
