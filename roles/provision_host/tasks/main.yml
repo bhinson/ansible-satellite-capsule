@@ -24,3 +24,7 @@
   ansible.builtin.wait_for:
     host: "{{ new_hostname_fqdn }}"
     timeout: 600
+    port: 22
+
+- debug:
+    msg: "Host {{ new_hostname_fqdn }} provisioned"
