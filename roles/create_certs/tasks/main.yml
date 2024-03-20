@@ -4,7 +4,7 @@
     path: /certs
     state: directory
     mode: 0744
-  delegate_to: "{{ groups['satellite'] }}"
+  delegate_to: "{{ groups['satellite'][0] }}"
   run_once: true
 
 - name: Create /certs directory on capsule
@@ -18,10 +18,8 @@
       capsule-certs-generate
       --foreman-proxy-fqdn {{ inventory_hostname }}
       --certs-tar /certs/{{ inventory_hostname }}-certs.tar
-      --foreman-proxy-cname "{{ capsule_cname if capsule_cname != 'none' else '' }}"
-      --cname "{{ capsule_cname if capsule_cname != 'none' else '' }}"
       >/certs/{{ inventory_hostname }}-out.raw
-  delegate_to: "{{ groups['satellite'] }}"
+  delegate_to: "{{ groups['satellite'][0] }}"
   when: capsule_install
 
 - name: Copy the required certs to the capsule
@@ -32,6 +30,8 @@
     group: root
     mode: 0744
     backup: yes
+    remote_src: true
+  delegate_to: "{{ groups['satellite'][0] }}"
 
 - name: Copy the installer command to the capsule for capsule install
   ansible.builtin.copy:
@@ -41,4 +41,6 @@
     group: root
     mode: 0744
     backup: yes
+    remote_src: true
+  delegate_to: "{{ groups['satellite'][0] }}"
   when: capsule_install

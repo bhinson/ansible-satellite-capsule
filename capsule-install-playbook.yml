@@ -1,6 +1,9 @@
 ---
 - hosts: capsules
-  
+  vars:
+    capsule_install: true
+    capsule_upgrade: false
+ 
   roles:
   - create_certs
   - bootstrap
