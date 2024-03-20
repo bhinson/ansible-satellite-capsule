@@ -13,7 +13,7 @@
   when: capsule_install
 
 - name: Register to Satellite
-  community.general.redhat_subscription:
+  redhat.rhel_system_roles.redhat_subscription:
     state: present
     activationkey: "{{ satellite_activation_key }}"
     org_id: "{{ satellite_organization }}"
