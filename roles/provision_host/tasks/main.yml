@@ -23,7 +23,8 @@
 - name: Wait for host to come online
   ansible.builtin.wait_for:
     host: "{{ new_hostname_fqdn }}"
-    timeout: 1200
+    # wait up to 30 minutes
+    timeout: 1800
     port: 22
 
 - name: Confirm host provisioned
