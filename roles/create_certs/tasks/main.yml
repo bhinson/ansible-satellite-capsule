@@ -4,7 +4,7 @@
     path: /certs
     state: directory
     mode: 0744
-  delegate_to: satellite
+  delegate_to: satellite-server
   run_once: true
 
 - name: Create /certs directory on capsule
@@ -21,7 +21,7 @@
       --foreman-proxy-cname "{{ capsule_cname if capsule_cname != 'none' else '' }}"
       --cname "{{ capsule_cname if capsule_cname != 'none' else '' }}"
       >/certs/{{ inventory_hostname }}-out.raw
-  delegate_to: satellite
+  delegate_to: satellite-server
   when: capsule_install
 
 - name: Copy the required certs to the capsule
