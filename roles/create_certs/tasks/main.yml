@@ -22,25 +22,30 @@
   delegate_to: "{{ groups['satellite'][0] }}"
   when: capsule_install
 
+- name: Install ssh public key
+  # required for synchronize module
+  ansible.posix.authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+  delegate_to: "{{ groups['satellite'][0] }}"
+
 - name: Copy the required certs to the capsule
-  ansible.builtin.copy:
+  ansible.builtin.synchronize:
     src: /certs/{{ inventory_hostname }}-certs.tar
-    dest: /certs/
-    owner: root
-    group: root
-    mode: 0744
-    backup: yes
-    remote_src: true
+    dest: /root/
+    mode: push
   delegate_to: "{{ groups['satellite'][0] }}"
 
 - name: Copy the installer command to the capsule for capsule install
-  ansible.builtin.copy:
+  ansible.builtin.synchronize:
     src: /certs/{{ inventory_hostname }}-out.raw
-    dest: /certs/
-    owner: root
-    group: root
-    mode: 0744
-    backup: yes
-    remote_src: true
+    dest: /root/
+    mode: push
   delegate_to: "{{ groups['satellite'][0] }}"
+
+# Extract the capsule install command using regex until RFE BZ 1573374 is fixed.
+- name: Extract the capsule-installer command for capsule install
+  shell:
+    sed 's/\x1B\[[0-9;]*[JKmsu]//g' "/root/{{ inventory_hostname }}-out.raw" | grep -e '^\s\+satellite-installer ' -e '^\s\+foreman-installer ' -e '^\s\+capsule-installer ' -e '^\s\+--' | sed 's|\(^\s\+--certs-tar\s\+"\).*$|\1/root/{{ inventory_hostname }}-certs.tar"\\|' > "/root/{{ inventory_hostname }}-script.sh"
   when: capsule_install

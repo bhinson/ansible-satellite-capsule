@@ -5,7 +5,7 @@
     state: latest
 
 - name: Install basic packages
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: chrony
     state: present
 
@@ -16,9 +16,9 @@
     enabled: true
 
 - name: Install capsule
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: satellite-capsule
     state: present
 
 - name: Run satellite-installer command
-  ansible.builtin.command: /bin/bash "/certs/{{ inventory_hostname }}-script.sh"
+  ansible.builtin.shell: satellite-installer < /root/{{ inventory_hostname }}-script.sh

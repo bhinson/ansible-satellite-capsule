@@ -1,15 +1,10 @@
 ---
 - name: Uninstall Satellite certificate
-  ansible.builtin.yum:
-    name: "katello-ca-consumer-*"
-    state: absent
+  ansible.builtin.shell: dnf remove -y "katello-ca-consumer-*"
   when: capsule_install
 
 - name: Install Satellite certificate
-  ansible.builtin.dnf:
-    name: "http://{{ satellite_hostname }}/pub/katello-ca-consumer-latest.noarch.rpm"
-    disable_gpg_check: true
-    state: present
+  ansible.builtin.shell: rpm -i "http://{{ satellite_hostname }}/pub/katello-ca-consumer-latest.noarch.rpm"
   when: capsule_install
 
 - name: Register to Satellite
